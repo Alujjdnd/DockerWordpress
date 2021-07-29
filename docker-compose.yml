@@ -1,0 +1,44 @@
+version: "2.1"
+services:
+  db:
+    build: ./db
+    container_name: db
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: kO4vaT&Q07MpAbuQD7
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: kO4vaT&Q07MpAbuQD7
+    networks: 
+      website_network:
+        aliases: 
+          - wordpress
+          
+      
+  wordpress:
+    build: .
+    container_name: wordpress_new
+    ports:
+      - "8000:80"
+    networks: 
+      website_network:
+        aliases: 
+          - wordpress
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: kO4vaT&Q07MpAbuQD7
+      WORDPRESS_DB_NAME: wordpress
+      
+ 
+networks:
+  website_network:
+    name: website_network
+
+volumes:
+  db_data:
+    driver: local
+    name: db_data
